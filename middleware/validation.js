@@ -92,7 +92,39 @@ const categoryValidation = [
 
 // ARTICLE VALIDATION
 const articleValidation = [
+    body('title')
+        .trim()
+        .notEmpty()
+        .withMessage('Title is required')
+        .isLength({ min:7, max:50})
+        .withMessage('Title must be 10 to 50 characters long'),
 
+    body('content')
+        .trim()
+        .notEmpty()
+        .withMessage('Content is required')
+        .isLength({ min:50, max:1500})
+        .withMessage('content must be 50 to 1500 characters long'),
+
+    body('category')
+        .trim()
+        .notEmpty()
+        .withMessage('Category is required'),
+
+    body('image')
+        .custom((value, {req}) => {
+            if(!req.file) {
+                throw new Error('Image is required');
+            }
+
+            const allowedExtentions = ['.jpg', '.jpeg', '.png'];
+            const fileExtension = path.extname(req.file.originalname).toLowerCase();
+            if(!allowedExtentions.includes(fileExtension)) {
+                throw new Error('Invalid image format. Only jpg, jpeg and png are allowed');
+            }
+            return true;
+        })
+        
 ]
 
 module.exports = {

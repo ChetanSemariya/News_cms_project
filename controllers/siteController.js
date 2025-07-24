@@ -5,6 +5,7 @@ const newsModel = require('../models/News');
 const userModel = require('../models/User');
 const commentModel = require('../models/Comment');
 const createError = require('../utils/error-message');
+const { validationResult} = require('express-validator');
 
 // index function
 const index = async(req, res) => {
